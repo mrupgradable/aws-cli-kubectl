@@ -1,7 +1,10 @@
-FROM amazon/aws-cli:2.24.17
+# Stage 1: Extract kubectl
+FROM alpine:3.19 AS builder
+RUN apk add --no-cache curl && \
+    curl -LO "https://dl.k8s.io/release/v1.32.2/bin/linux/amd64/kubectl" && \
+    chmod +x kubectl
 
-# Add Kubernetes repository and install kubectl 1.32
-RUN yum install -y yum-utils && \
-    yum-config-manager --add-repo https://pkgs.k8s.io/core:/stable:/v1.32/rpm/ && \
-    rpm --import https://pkgs.k8s.io/core:/stable:/v1.32/rpm/repodata/repomd.xml.key && \
-    yum install -y kubectl
+    # Stage 2: Final image extending amazon/aws-cli
+    FROM amazon/aws-cli:latest
+    COPY --from=builder /kubectl /usr/local/bin/kubectl
+    RUN aws --version
