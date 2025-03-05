@@ -1,2 +1,6 @@
 FROM amazon/aws-cli:2.24.17
-RUN yum install -y kubectl
+
+# Add Kubernetes repository and install kubectl 1.32
+RUN yum install -y yum-utils && \
+    yum-config-manager --add-repo https://pkgs.k8s.io/core:/stable:/v1.32/rpm/ && \
+    yum install -y kubectl

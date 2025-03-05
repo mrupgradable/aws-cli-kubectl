@@ -9,5 +9,5 @@ Customising this each time in a continuous delivery process takes uneccessary ti
 ## Versions
 | Module  | Version |
 | ------- | ------- |
-| aws-cli | ? |
-| kubectl | ? |
+| aws-cli |  ?      |
+| kubectl |  1.32   |
